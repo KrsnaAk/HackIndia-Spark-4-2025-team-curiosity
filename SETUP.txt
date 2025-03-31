@@ -1,0 +1,91 @@
+SETUP GUIDE FOR CHATBOT-C2
+=========================
+
+1. FOLDER SETUP
+--------------
+- Create a new folder named 'ChatBot-C2' (avoid spaces and special characters)
+- Copy all project files into this folder
+
+2. PYTHON SETUP
+--------------
+- Make sure Python 3.13 is installed on your system
+- Open Command Prompt or PowerShell
+- Navigate to your project folder:
+  cd C:\Users\aka25\OneDrive\Desktop\ChatBot-C2
+
+3. VIRTUAL ENVIRONMENT SETUP
+---------------------------
+- Create a virtual environment:
+  python -m venv venv
+- Activate the virtual environment:
+  .\venv\Scripts\activate
+- You should see (venv) at the start of your prompt
+
+4. INSTALL DEPENDENCIES
+----------------------
+- Install required packages:
+  pip install -r requirements.txt
+- Install additional required packages:
+  pip install numpy pandas scikit-learn sentence-transformers
+
+5. RUNNING THE APPLICATION
+-------------------------
+- Make sure your virtual environment is activated (you should see (venv))
+- Start the server:
+  python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+- The application will be available at: http://localhost:8000
+
+6. STOPPING THE APPLICATION
+--------------------------
+- Press Ctrl + C in the terminal to stop the server
+- If Ctrl + C doesn't work, use:
+  taskkill /F /IM python.exe
+
+7. TROUBLESHOOTING
+-----------------
+If you encounter any issues:
+- Make sure you're in the correct directory
+- Verify that the virtual environment is activated
+- Check that all dependencies are installed
+- Ensure no other application is using port 8000
+
+8. GITHUB SETUP (Optional)
+-------------------------
+To push to GitHub:
+1. Initialize git repository:
+   git init
+
+2. Create .gitignore:
+   echo "venv/
+   __pycache__/
+   *.pyc
+   .env
+   .DS_Store
+   .idea/
+   .vscode/" > .gitignore
+
+3. Add and commit files:
+   git add .
+   git commit -m "Initial commit"
+
+4. Create new repository on GitHub:
+   - Go to github.com
+   - Click "+" -> "New repository"
+   - Name it "ChatBot-C2"
+   - Don't initialize with README
+
+5. Connect and push:
+   git remote add origin https://github.com/YOUR_USERNAME/ChatBot-C2.git
+   git push -u origin main
+
+Note: Replace 'YOUR_USERNAME' with your actual GitHub username
+
+For first-time GitHub users:
+1. Configure git:
+   git config --global user.name "Your Name"
+   git config --global user.email "your.email@example.com"
+
+2. Set up authentication (Personal Access Token or SSH key)
+
+=========================
+End of Setup Guide 
