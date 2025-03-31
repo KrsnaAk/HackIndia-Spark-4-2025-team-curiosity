@@ -5,6 +5,7 @@ Unified cryptocurrency API interface that handles multiple providers
 from typing import Dict, Any, Optional, List, Union
 import logging
 import re
+import os
 
 from app.utils.api.crypto.coingecko import CoinGeckoClient
 from app.utils.api.crypto.binance import BinanceClient
@@ -20,29 +21,30 @@ class CryptoAPI:
     Handles failover between different providers and normalizes responses
     """
     
-    def __init__(self, use_mock: bool = True):
+    def __init__(self, use_mock: bool = False):
         """
         Initialize all crypto API clients
         
         Args:
             use_mock: Whether to use mock data (useful for development)
         """
-        # Use real APIs instead of mock data
-        use_mock = False
-        
         # Create API clients
         self.mock = MockCryptoClient() if use_mock else None
+        
+        # Initialize real API clients
         self.coingecko = CoinGeckoClient()
-        self.binance = BinanceClient()
-        self.coinmarketcap = CoinMarketCapClient()
+        # self.binance = BinanceClient()  # To be added later
+        # self.coinmarketcap = CoinMarketCapClient(
+        #     api_key=os.getenv("COINMARKETCAP_API_KEY")
+        # )
         
         # Provider priority by function (can be customized based on reliability)
         self.provider_priority = {
-            "price": ["coingecko", "binance", "coinmarketcap", "mock"] if not use_mock else ["mock"],
-            "details": ["coingecko", "coinmarketcap", "mock"] if not use_mock else ["mock"],
-            "historical": ["binance", "coingecko", "coinmarketcap", "mock"] if not use_mock else ["mock"],
-            "search": ["coingecko", "coinmarketcap", "mock"] if not use_mock else ["mock"],
-            "market": ["coingecko", "coinmarketcap", "mock"] if not use_mock else ["mock"]
+            "price": ["coingecko", "mock"] if not use_mock else ["mock"],
+            "details": ["coingecko", "mock"] if not use_mock else ["mock"],
+            "historical": ["coingecko", "mock"] if not use_mock else ["mock"],
+            "search": ["coingecko", "mock"] if not use_mock else ["mock"],
+            "market": ["coingecko", "mock"] if not use_mock else ["mock"]
         }
     
     def _normalize_symbol(self, symbol: str) -> str:

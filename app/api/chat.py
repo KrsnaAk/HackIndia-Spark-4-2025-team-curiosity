@@ -74,14 +74,48 @@ def is_loan_query(message: str) -> bool:
     """Detect if a message is asking about loans or financial borrowing"""
     message_lower = message.lower()
     
-    loan_terms = [
-        "loan", "borrow", "lending", "mortgage", "credit", "debt", "emi", "interest rate",
-        "home loan", "car loan", "personal loan", "education loan", "student loan",
-        "loan application", "loan approval", "loan eligibility", "loan interest",
-        "loan calculator", "prepayment", "foreclosure", "refinance"
+    # More specific loan-related phrases
+    loan_phrases = [
+        "tell me about loans",
+        "what types of loans",
+        "loan information",
+        "loan details",
+        "loan types",
+        "loan options",
+        "loan rates",
+        "loan interest",
+        "loan application",
+        "how to get a loan",
+        "loan eligibility",
+        "loan requirements",
+        "loan process",
+        "loan calculator",
+        "loan comparison"
     ]
     
-    return any(term in message_lower for term in loan_terms)
+    # Check for exact phrases first
+    if any(phrase in message_lower for phrase in loan_phrases):
+        return True
+    
+    # Then check for specific loan types
+    loan_types = [
+        "home loan",
+        "car loan",
+        "personal loan",
+        "education loan",
+        "student loan",
+        "business loan",
+        "mortgage loan",
+        "auto loan",
+        "gold loan",
+        "property loan"
+    ]
+    
+    # Must have both "loan" and a specific type
+    if "loan" in message_lower and any(loan_type in message_lower for loan_type in loan_types):
+        return True
+    
+    return False
 
 # Function to extract stock symbol from message
 def extract_stock_symbol(message: str) -> Optional[str]:
@@ -864,6 +898,69 @@ def is_relationship_query(message: str) -> bool:
     
     return any(keyword in message_lower for keyword in relationship_keywords)
 
+def get_project_details(project_name: str) -> str:
+    """Get detailed information about a crypto project"""
+    try:
+        # Search for the project
+        search_results = crypto_api.search_crypto(project_name)
+        if not search_results:
+            return f"I couldn't find information about {project_name}. Please check the spelling or try a different project name."
+
+        # Get the first matching project
+        project = search_results[0]
+        symbol = project.get('symbol', '').upper()
+        
+        # Get current price and market data
+        price_data = crypto_api.get_crypto_price(symbol)
+        details = crypto_api.get_crypto_details(symbol)
+        
+        # Format the response
+        response = f"Here's detailed information about {project.get('name', project_name)} ({symbol}):\n\n"
+        
+        # Price Information
+        if price_data and 'error' not in price_data:
+            response += "Current Market Data:\n"
+            response += f"- Price: ${price_data.get('price', 'N/A')}\n"
+            response += f"- 24h Change: {price_data.get('percent_change_24h', 'N/A')}%\n"
+            response += f"- Market Cap: ${price_data.get('market_cap', 'N/A'):,.2f}\n"
+            response += f"- 24h Volume: ${price_data.get('volume_24h', 'N/A'):,.2f}\n\n"
+        
+        # Project Details
+        if details and 'error' not in details:
+            response += "Project Details:\n"
+            response += f"- Category: {details.get('category', 'N/A')}\n"
+            response += f"- Description: {details.get('description', 'N/A')}\n"
+            response += f"- Website: {details.get('website', 'N/A')}\n"
+            response += f"- GitHub: {details.get('github', 'N/A')}\n"
+            response += f"- Twitter: {details.get('twitter', 'N/A')}\n\n"
+            
+            # Technical Details
+            if 'technical_details' in details:
+                tech = details['technical_details']
+                response += "Technical Details:\n"
+                response += f"- Consensus: {tech.get('consensus', 'N/A')}\n"
+                response += f"- Block Time: {tech.get('block_time', 'N/A')}\n"
+                response += f"- TPS: {tech.get('tps', 'N/A')}\n"
+                response += f"- Layer: {tech.get('layer', 'N/A')}\n\n"
+            
+            # Tokenomics
+            if 'tokenomics' in details:
+                token = details['tokenomics']
+                response += "Tokenomics:\n"
+                response += f"- Total Supply: {token.get('total_supply', 'N/A')}\n"
+                response += f"- Circulating Supply: {token.get('circulating_supply', 'N/A')}\n"
+                response += f"- Max Supply: {token.get('max_supply', 'N/A')}\n"
+                response += f"- Inflation Rate: {token.get('inflation_rate', 'N/A')}\n\n"
+        
+        # Add disclaimer
+        response += "Disclaimer: This information is for educational purposes only. Always do your own research before making investment decisions."
+        
+        return response
+        
+    except Exception as e:
+        logging.error(f"Error getting project details for {project_name}: {str(e)}")
+        return f"I encountered an error while fetching information about {project_name}. Please try again later."
+
 @router.post("/")
 async def chat(request: ChatRequest):
     message = request.message
@@ -1061,10 +1158,10 @@ async def chat(request: ChatRequest):
             # Get crypto price and details
             price_data = crypto_api.get_crypto_price(crypto_symbol)
             if price_data and "error" not in price_data:
-                price = price_data.get("usd", "N/A")
-                change_24h = price_data.get("usd_24h_change", "N/A")
-                market_cap = price_data.get("usd_market_cap", "N/A")
-                volume_24h = price_data.get("usd_24h_vol", "N/A")
+                price = price_data.get("price", "N/A")
+                change_24h = price_data.get("percent_change_24h", "N/A")
+                market_cap = price_data.get("market_cap", "N/A")
+                volume_24h = price_data.get("volume_24h", "N/A")
                 
                 # Format the response
                 if isinstance(change_24h, (int, float)):
@@ -1146,6 +1243,22 @@ async def chat(request: ChatRequest):
             except Exception as e:
                 logging.error(f"Error generating relationship response: {str(e)}")
                 # Continue with normal processing
+        
+        # Check for project-specific queries
+        if "tell me about" in message.lower() or "what is" in message.lower() or "information about" in message.lower():
+            # Extract project name
+            project_name = None
+            if "tell me about" in message.lower():
+                project_name = message.lower().split("tell me about")[1].strip()
+            elif "what is" in message.lower():
+                project_name = message.lower().split("what is")[1].strip()
+            elif "information about" in message.lower():
+                project_name = message.lower().split("information about")[1].strip()
+                
+            if project_name:
+                return ChatResponse(
+                    response=get_project_details(project_name)
+                )
         
         # Default to general LLM response
         try:
