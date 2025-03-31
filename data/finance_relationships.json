@@ -1,0 +1,197 @@
+[
+  {
+    "source": "stock",
+    "target": "market_capitalization",
+    "type": "has_metric"
+  },
+  {
+    "source": "stock",
+    "target": "pe_ratio",
+    "type": "has_metric"
+  },
+  {
+    "source": "stock",
+    "target": "dividend",
+    "type": "may_pay"
+  },
+  {
+    "source": "bond",
+    "target": "interest_rate",
+    "type": "affected_by"
+  },
+  {
+    "source": "bond",
+    "target": "inflation",
+    "type": "affected_by"
+  },
+  {
+    "source": "mutual_fund",
+    "target": "stock",
+    "type": "may_contain"
+  },
+  {
+    "source": "mutual_fund",
+    "target": "bond",
+    "type": "may_contain"
+  },
+  {
+    "source": "etf",
+    "target": "stock",
+    "type": "may_contain"
+  },
+  {
+    "source": "etf",
+    "target": "bond",
+    "type": "may_contain"
+  },
+  {
+    "source": "interest_rate",
+    "target": "inflation",
+    "type": "related_to"
+  },
+  {
+    "source": "bull_market",
+    "target": "bear_market",
+    "type": "opposite_of"
+  },
+  {
+    "source": "market_capitalization",
+    "target": "stock",
+    "type": "measures"
+  },
+  {
+    "source": "diversification",
+    "target": "asset_allocation",
+    "type": "related_to"
+  },
+  {
+    "source": "diversification",
+    "target": "risk_management",
+    "type": "is_type_of"
+  },
+  {
+    "source": "roa",
+    "target": "financial_metrics",
+    "type": "is_type_of"
+  },
+  {
+    "source": "roe",
+    "target": "financial_metrics",
+    "type": "is_type_of"
+  },
+  {
+    "source": "options",
+    "target": "derivative",
+    "type": "is_type_of"
+  },
+  {
+    "source": "futures",
+    "target": "derivative",
+    "type": "is_type_of"
+  },
+  {
+    "source": "pe_ratio",
+    "target": "stock",
+    "type": "measures"
+  },
+  {
+    "source": "pe_ratio",
+    "target": "valuation",
+    "type": "used_for"
+  },
+  {
+    "source": "dcf",
+    "target": "valuation",
+    "type": "used_for"
+  },
+  {
+    "source": "inflation",
+    "target": "interest_rate",
+    "type": "influences"
+  },
+  {
+    "source": "dividend",
+    "target": "stock",
+    "type": "associated_with"
+  },
+  {
+    "source": "hedge",
+    "target": "risk_management",
+    "type": "is_type_of"
+  },
+  {
+    "source": "volatility",
+    "target": "risk",
+    "type": "indicates"
+  },
+  {
+    "source": "liquidity",
+    "target": "market_efficiency",
+    "type": "contributes_to"
+  },
+  {
+    "source": "compound_interest",
+    "target": "investment_growth",
+    "type": "contributes_to"
+  },
+  {
+    "source": "capital_gain",
+    "target": "taxation",
+    "type": "subject_to"
+  },
+  {
+    "source": "bull_market",
+    "target": "optimism",
+    "type": "characterized_by"
+  },
+  {
+    "source": "bear_market",
+    "target": "pessimism",
+    "type": "characterized_by"
+  },
+  {
+    "source": "etf",
+    "target": "mutual_fund",
+    "type": "similar_to"
+  },
+  {
+    "source": "derivative",
+    "target": "underlying_asset",
+    "type": "derives_value_from"
+  },
+  {
+    "source": "forex",
+    "target": "currency",
+    "type": "trades"
+  },
+  {
+    "source": "options",
+    "target": "risk_management",
+    "type": "used_for"
+  },
+  {
+    "source": "futures",
+    "target": "price_discovery",
+    "type": "contributes_to"
+  },
+  {
+    "source": "interest_rate",
+    "target": "bond_prices",
+    "type": "inversely_affects"
+  },
+  {
+    "source": "inflation",
+    "target": "purchasing_power",
+    "type": "erodes"
+  },
+  {
+    "source": "stock",
+    "target": "equity",
+    "type": "is_type_of"
+  },
+  {
+    "source": "bond",
+    "target": "debt",
+    "type": "is_type_of"
+  }
+]

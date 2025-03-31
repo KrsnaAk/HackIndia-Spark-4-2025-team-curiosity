@@ -1,0 +1,510 @@
+{
+  "entities": {
+    "stock_market": {
+      "id": "stock_market",
+      "type": "concept",
+      "properties": {
+        "name": "Stock Market",
+        "description": "A market where shares of publicly held companies are issued and traded.",
+        "category": "market"
+      },
+      "relationships": [
+        {
+          "type": "INCLUDES",
+          "target": "stock_exchange",
+          "properties": {}
+        },
+        {
+          "type": "HAS_INDICATOR",
+          "target": "market_index",
+          "properties": {}
+        }
+      ]
+    },
+    "stock_exchange": {
+      "id": "stock_exchange",
+      "type": "concept",
+      "properties": {
+        "name": "Stock Exchange",
+        "description": "A facility where stockbrokers and traders can buy and sell securities.",
+        "category": "market"
+      },
+      "relationships": [
+        {
+          "type": "EXAMPLE",
+          "target": "nyse",
+          "properties": {}
+        },
+        {
+          "type": "EXAMPLE",
+          "target": "nasdaq",
+          "properties": {}
+        }
+      ]
+    },
+    "nyse": {
+      "id": "nyse",
+      "type": "entity",
+      "properties": {
+        "name": "New York Stock Exchange",
+        "founded": 1792,
+        "location": "New York City, USA",
+        "category": "market"
+      },
+      "relationships": []
+    },
+    "nasdaq": {
+      "id": "nasdaq",
+      "type": "entity",
+      "properties": {
+        "name": "NASDAQ",
+        "founded": 1971,
+        "location": "New York City, USA",
+        "category": "market"
+      },
+      "relationships": []
+    },
+    "market_index": {
+      "id": "market_index",
+      "type": "concept",
+      "properties": {
+        "name": "Market Index",
+        "description": "A measurement of the value of a section of the stock market, calculated from the prices of selected stocks.",
+        "category": "market"
+      },
+      "relationships": [
+        {
+          "type": "EXAMPLE",
+          "target": "sp500",
+          "properties": {}
+        },
+        {
+          "type": "EXAMPLE",
+          "target": "dow_jones",
+          "properties": {}
+        }
+      ]
+    },
+    "sp500": {
+      "id": "sp500",
+      "type": "entity",
+      "properties": {
+        "name": "S&P 500",
+        "description": "Stock market index tracking the performance of 500 large companies listed on stock exchanges in the United States.",
+        "founded": 1957,
+        "category": "market"
+      },
+      "relationships": []
+    },
+    "dow_jones": {
+      "id": "dow_jones",
+      "type": "entity",
+      "properties": {
+        "name": "Dow Jones Industrial Average",
+        "description": "Stock market index of 30 prominent companies listed on stock exchanges in the United States.",
+        "founded": 1896,
+        "category": "market"
+      },
+      "relationships": []
+    },
+    "stock": {
+      "id": "stock",
+      "type": "concept",
+      "properties": {
+        "name": "Stock",
+        "description": "A type of security that signifies ownership in a corporation and represents a claim on part of the corporation's assets and earnings.",
+        "category": "investment"
+      },
+      "relationships": [
+        {
+          "type": "HAS_TYPE",
+          "target": "common_stock",
+          "properties": {}
+        },
+        {
+          "type": "HAS_TYPE",
+          "target": "preferred_stock",
+          "properties": {}
+        },
+        {
+          "type": "RELATED_TO",
+          "target": "dividend",
+          "properties": {}
+        }
+      ]
+    },
+    "common_stock": {
+      "id": "common_stock",
+      "type": "concept",
+      "properties": {
+        "name": "Common Stock",
+        "description": "A security that represents ownership in a corporation with voting rights but lowest priority in assets distribution and dividend payments.",
+        "category": "investment"
+      },
+      "relationships": []
+    },
+    "preferred_stock": {
+      "id": "preferred_stock",
+      "type": "concept",
+      "properties": {
+        "name": "Preferred Stock",
+        "description": "A class of ownership in a corporation with higher claim on assets and earnings than common stock, but typically with no voting rights.",
+        "category": "investment"
+      },
+      "relationships": []
+    },
+    "dividend": {
+      "id": "dividend",
+      "type": "concept",
+      "properties": {
+        "name": "Dividend",
+        "description": "A distribution of a portion of a company's earnings to a class of its shareholders.",
+        "category": "investment"
+      },
+      "relationships": []
+    },
+    "bond": {
+      "id": "bond",
+      "type": "concept",
+      "properties": {
+        "name": "Bond",
+        "description": "A fixed income investment representing a loan made by an investor to a borrower, typically corporate or governmental.",
+        "category": "investment"
+      },
+      "relationships": [
+        {
+          "type": "HAS_TYPE",
+          "target": "government_bond",
+          "properties": {}
+        },
+        {
+          "type": "HAS_TYPE",
+          "target": "corporate_bond",
+          "properties": {}
+        },
+        {
+          "type": "HAS_TYPE",
+          "target": "municipal_bond",
+          "properties": {}
+        },
+        {
+          "type": "RELATED_TO",
+          "target": "interest_rate",
+          "properties": {}
+        }
+      ]
+    },
+    "government_bond": {
+      "id": "government_bond",
+      "type": "concept",
+      "properties": {
+        "name": "Government Bond",
+        "description": "A debt security issued by a government to support government spending and obligations.",
+        "category": "investment"
+      },
+      "relationships": []
+    },
+    "corporate_bond": {
+      "id": "corporate_bond",
+      "type": "concept",
+      "properties": {
+        "name": "Corporate Bond",
+        "description": "A debt security issued by a corporation and sold to investors to raise capital.",
+        "category": "investment"
+      },
+      "relationships": []
+    },
+    "municipal_bond": {
+      "id": "municipal_bond",
+      "type": "concept",
+      "properties": {
+        "name": "Municipal Bond",
+        "description": "A debt security issued by a state, municipality, or county to finance capital expenditures.",
+        "category": "investment"
+      },
+      "relationships": []
+    },
+    "interest_rate": {
+      "id": "interest_rate",
+      "type": "concept",
+      "properties": {
+        "name": "Interest Rate",
+        "description": "The amount a lender charges a borrower for the use of assets, expressed as a percentage of the principal.",
+        "category": "banking"
+      },
+      "relationships": [
+        {
+          "type": "AFFECTS",
+          "target": "inflation",
+          "properties": {}
+        },
+        {
+          "type": "SET_BY",
+          "target": "central_bank",
+          "properties": {}
+        }
+      ]
+    },
+    "inflation": {
+      "id": "inflation",
+      "type": "concept",
+      "properties": {
+        "name": "Inflation",
+        "description": "The rate at which the general level of prices for goods and services is rising, and subsequently, purchasing power is falling.",
+        "category": "market"
+      },
+      "relationships": []
+    },
+    "central_bank": {
+      "id": "central_bank",
+      "type": "concept",
+      "properties": {
+        "name": "Central Bank",
+        "description": "A financial institution given privileged control over the production and distribution of money and credit.",
+        "category": "banking"
+      },
+      "relationships": [
+        {
+          "type": "EXAMPLE",
+          "target": "federal_reserve",
+          "properties": {}
+        }
+      ]
+    },
+    "federal_reserve": {
+      "id": "federal_reserve",
+      "type": "entity",
+      "properties": {
+        "name": "Federal Reserve System",
+        "description": "The central banking system of the United States.",
+        "founded": 1913,
+        "category": "banking"
+      },
+      "relationships": []
+    },
+    "mutual_fund": {
+      "id": "mutual_fund",
+      "type": "concept",
+      "properties": {
+        "name": "Mutual Fund",
+        "description": "An investment vehicle made up of a pool of money collected from investors to invest in securities such as stocks, bonds, and other assets.",
+        "category": "investment"
+      },
+      "relationships": []
+    },
+    "etf": {
+      "id": "etf",
+      "type": "concept",
+      "properties": {
+        "name": "Exchange-Traded Fund (ETF)",
+        "description": "A type of investment fund and exchange-traded product traded on stock exchanges like individual stocks.",
+        "category": "investment"
+      },
+      "relationships": []
+    },
+    "credit_score": {
+      "id": "credit_score",
+      "type": "concept",
+      "properties": {
+        "name": "Credit Score",
+        "description": "A numerical expression based on a statistical analysis of a person's credit files, representing the creditworthiness of an individual.",
+        "category": "personal_finance"
+      },
+      "relationships": [
+        {
+          "type": "AFFECTS",
+          "target": "loan_eligibility",
+          "properties": {}
+        }
+      ]
+    },
+    "loan_eligibility": {
+      "id": "loan_eligibility",
+      "type": "concept",
+      "properties": {
+        "name": "Loan Eligibility",
+        "description": "The criteria that determine whether an individual can qualify for a loan.",
+        "category": "banking"
+      },
+      "relationships": []
+    },
+    "mortgage": {
+      "id": "mortgage",
+      "type": "concept",
+      "properties": {
+        "name": "Mortgage",
+        "description": "A loan in which property or real estate is used as collateral.",
+        "category": "banking"
+      },
+      "relationships": [
+        {
+          "type": "HAS_TYPE",
+          "target": "fixed_rate_mortgage",
+          "properties": {}
+        },
+        {
+          "type": "HAS_TYPE",
+          "target": "adjustable_rate_mortgage",
+          "properties": {}
+        }
+      ]
+    },
+    "fixed_rate_mortgage": {
+      "id": "fixed_rate_mortgage",
+      "type": "concept",
+      "properties": {
+        "name": "Fixed-Rate Mortgage",
+        "description": "A mortgage loan where the interest rate remains the same throughout the term of the loan.",
+        "category": "banking"
+      },
+      "relationships": []
+    },
+    "adjustable_rate_mortgage": {
+      "id": "adjustable_rate_mortgage",
+      "type": "concept",
+      "properties": {
+        "name": "Adjustable-Rate Mortgage",
+        "description": "A mortgage loan with an interest rate that adjusts periodically based on an index.",
+        "category": "banking"
+      },
+      "relationships": []
+    },
+    "risk": {
+      "id": "risk",
+      "type": "concept",
+      "properties": {
+        "name": "Risk",
+        "description": "The potential for uncontrolled loss of something of value.",
+        "category": "risk"
+      },
+      "relationships": [
+        {
+          "type": "HAS_TYPE",
+          "target": "market_risk",
+          "properties": {}
+        },
+        {
+          "type": "HAS_TYPE",
+          "target": "credit_risk",
+          "properties": {}
+        },
+        {
+          "type": "HAS_TYPE",
+          "target": "liquidity_risk",
+          "properties": {}
+        }
+      ]
+    },
+    "market_risk": {
+      "id": "market_risk",
+      "type": "concept",
+      "properties": {
+        "name": "Market Risk",
+        "description": "The risk of losses in positions arising from movements in market prices.",
+        "category": "risk"
+      },
+      "relationships": []
+    },
+    "credit_risk": {
+      "id": "credit_risk",
+      "type": "concept",
+      "properties": {
+        "name": "Credit Risk",
+        "description": "The risk of loss resulting from a borrower's failure to repay a loan or meet contractual obligations.",
+        "category": "risk"
+      },
+      "relationships": []
+    },
+    "liquidity_risk": {
+      "id": "liquidity_risk",
+      "type": "concept",
+      "properties": {
+        "name": "Liquidity Risk",
+        "description": "The risk that a company or individual will not be able to meet short-term financial demands.",
+        "category": "risk"
+      },
+      "relationships": []
+    }
+  },
+  "concepts": [
+    {
+      "id": "stock_market",
+      "name": "Stock Market",
+      "description": "A market where shares of publicly held companies are issued and traded.",
+      "category": "market"
+    },
+    {
+      "id": "stock",
+      "name": "Stock",
+      "description": "A type of security that signifies ownership in a corporation and represents a claim on part of the corporation's assets and earnings.",
+      "category": "investment"
+    },
+    {
+      "id": "bond",
+      "name": "Bond",
+      "description": "A fixed income investment representing a loan made by an investor to a borrower, typically corporate or governmental.",
+      "category": "investment"
+    },
+    {
+      "id": "mutual_fund",
+      "name": "Mutual Fund",
+      "description": "An investment vehicle made up of a pool of money collected from investors to invest in securities such as stocks, bonds, and other assets.",
+      "category": "investment"
+    },
+    {
+      "id": "etf",
+      "name": "Exchange-Traded Fund (ETF)",
+      "description": "A type of investment fund and exchange-traded product traded on stock exchanges like individual stocks.",
+      "category": "investment"
+    },
+    {
+      "id": "inflation",
+      "name": "Inflation",
+      "description": "The rate at which the general level of prices for goods and services is rising, and subsequently, purchasing power is falling.",
+      "category": "market"
+    },
+    {
+      "id": "interest_rate",
+      "name": "Interest Rate",
+      "description": "The amount a lender charges a borrower for the use of assets, expressed as a percentage of the principal.",
+      "category": "banking"
+    },
+    {
+      "id": "mortgage",
+      "name": "Mortgage",
+      "description": "A loan in which property or real estate is used as collateral.",
+      "category": "banking"
+    },
+    {
+      "id": "credit_score",
+      "name": "Credit Score",
+      "description": "A numerical expression based on a statistical analysis of a person's credit files, representing the creditworthiness of an individual.",
+      "category": "personal_finance"
+    },
+    {
+      "id": "risk",
+      "name": "Risk",
+      "description": "The potential for uncontrolled loss of something of value.",
+      "category": "risk"
+    },
+    {
+      "id": "dividend",
+      "name": "Dividend",
+      "description": "A distribution of a portion of a company's earnings to a class of its shareholders.",
+      "category": "investment"
+    },
+    {
+      "id": "central_bank",
+      "name": "Central Bank",
+      "description": "A financial institution given privileged control over the production and distribution of money and credit.",
+      "category": "banking"
+    }
+  ],
+  "categories": {
+    "investment": ["stocks", "bonds", "mutual_funds", "etfs", "real_estate", "dividend", "portfolio"],
+    "personal_finance": ["budgeting", "savings", "credit", "debt", "retirement", "taxes", "insurance"],
+    "banking": ["accounts", "loans", "interest_rates", "fees", "services", "mortgage", "central_bank"],
+    "market": ["indicators", "trends", "analysis", "sectors", "indices", "stock_market", "inflation"],
+    "risk": ["types", "assessment", "management", "mitigation", "insurance", "market_risk", "credit_risk"]
+  }
+} 

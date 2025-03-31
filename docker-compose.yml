@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  finance-chatbot:
+    build: .
+    container_name: finance-chatbot
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - APP_ENV=production
+    restart: unless-stopped 

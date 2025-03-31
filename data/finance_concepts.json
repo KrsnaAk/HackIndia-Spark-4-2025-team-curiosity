@@ -1,0 +1,152 @@
+[
+  {
+    "id": "stock",
+    "name": "Stock",
+    "category": "investment",
+    "definition": "A type of security that represents ownership in a corporation and a claim on a portion of the corporation's assets and earnings."
+  },
+  {
+    "id": "bond",
+    "name": "Bond",
+    "category": "investment",
+    "definition": "A fixed-income instrument representing a loan made by an investor to a borrower, typically corporate or governmental."
+  },
+  {
+    "id": "mutual_fund",
+    "name": "Mutual Fund",
+    "category": "investment",
+    "definition": "An investment vehicle made up of a pool of money collected from many investors to invest in securities such as stocks, bonds, and other assets."
+  },
+  {
+    "id": "etf",
+    "name": "Exchange-Traded Fund",
+    "category": "investment",
+    "definition": "A type of investment fund that is traded on stock exchanges, similar to stocks. ETFs typically track an index, sector, commodity, or asset."
+  },
+  {
+    "id": "interest_rate",
+    "name": "Interest Rate",
+    "category": "economics",
+    "definition": "The amount a lender charges a borrower for the use of assets, expressed as a percentage of the principal."
+  },
+  {
+    "id": "inflation",
+    "name": "Inflation",
+    "category": "economics",
+    "definition": "The rate at which the general level of prices for goods and services is rising, eroding purchasing power."
+  },
+  {
+    "id": "dividend",
+    "name": "Dividend",
+    "category": "investment",
+    "definition": "A payment made by a corporation to its shareholders, usually in the form of cash or additional stock."
+  },
+  {
+    "id": "market_capitalization",
+    "name": "Market Capitalization",
+    "category": "markets",
+    "definition": "The total market value of a company's outstanding shares of stock, calculated by multiplying the stock's price by the total number of shares outstanding."
+  },
+  {
+    "id": "pe_ratio",
+    "name": "Price-to-Earnings Ratio",
+    "category": "valuation",
+    "definition": "A valuation ratio of a company's current share price compared to its per-share earnings (EPS)."
+  },
+  {
+    "id": "roa",
+    "name": "Return on Assets",
+    "category": "financial_metrics",
+    "definition": "An indicator of how profitable a company is relative to its total assets, calculated by dividing a company's net income by its total assets."
+  },
+  {
+    "id": "roe",
+    "name": "Return on Equity",
+    "category": "financial_metrics",
+    "definition": "A measure of financial performance calculated by dividing net income by shareholders' equity, indicating how effectively management is using a company's assets to create profits."
+  },
+  {
+    "id": "dcf",
+    "name": "Discounted Cash Flow",
+    "category": "valuation",
+    "definition": "A valuation method used to estimate the value of an investment based on its expected future cash flows."
+  },
+  {
+    "id": "bull_market",
+    "name": "Bull Market",
+    "category": "markets",
+    "definition": "A market condition in which prices are rising or expected to rise, encouraging buying."
+  },
+  {
+    "id": "bear_market",
+    "name": "Bear Market",
+    "category": "markets",
+    "definition": "A market condition in which prices are falling or expected to fall, encouraging selling."
+  },
+  {
+    "id": "diversification",
+    "name": "Diversification",
+    "category": "investment_strategy",
+    "definition": "The practice of spreading investments among different assets, asset classes, and industries to reduce risk."
+  },
+  {
+    "id": "liquidity",
+    "name": "Liquidity",
+    "category": "markets",
+    "definition": "The degree to which an asset can be quickly bought or sold in the market without affecting its price."
+  },
+  {
+    "id": "volatility",
+    "name": "Volatility",
+    "category": "markets",
+    "definition": "A statistical measure of the dispersion of returns for a given security or market index, indicating the risk associated with price changes."
+  },
+  {
+    "id": "asset_allocation",
+    "name": "Asset Allocation",
+    "category": "investment_strategy",
+    "definition": "The process of dividing an investment portfolio among different asset categories, such as stocks, bonds, and cash."
+  },
+  {
+    "id": "compound_interest",
+    "name": "Compound Interest",
+    "category": "financial_concepts",
+    "definition": "Interest calculated on the initial principal and also on the accumulated interest of previous periods, leading to exponential growth over time."
+  },
+  {
+    "id": "capital_gain",
+    "name": "Capital Gain",
+    "category": "taxation",
+    "definition": "An increase in the value of a capital asset when it is sold, resulting in profit that may be subject to taxation."
+  },
+  {
+    "id": "hedge",
+    "name": "Hedge",
+    "category": "risk_management",
+    "definition": "An investment position intended to offset potential losses or gains in a companion investment."
+  },
+  {
+    "id": "forex",
+    "name": "Foreign Exchange Market",
+    "category": "markets",
+    "definition": "A global decentralized market for trading currencies where exchange rates are determined."
+  },
+  {
+    "id": "derivative",
+    "name": "Derivative",
+    "category": "investment",
+    "definition": "A financial security with a value that is dependent upon or derived from an underlying asset or group of assets."
+  },
+  {
+    "id": "options",
+    "name": "Options",
+    "category": "derivatives",
+    "definition": "Financial instruments that give buyers the right, but not the obligation, to buy or sell an asset at a predetermined price within a specific time period."
+  },
+  {
+    "id": "futures",
+    "name": "Futures",
+    "category": "derivatives",
+    "definition": "Financial contracts obligating the buyer to purchase an asset or the seller to sell an asset at a predetermined future date and price."
+  }
+] 
