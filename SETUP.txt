@@ -23,7 +23,7 @@ Step 2: Clone the Repository
 3. Run the following command:
    ```
    git clone https://github.com/KrsnaAk/HackIndia-Spark-4-2025-team-curiosity.git
-   cd ChatBot-BEST
+   cd HackIndia-Spark-4-2025-team-curiosity
    ```
 
 Step 3: VSCode Setup
