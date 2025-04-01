@@ -11,9 +11,17 @@ A *Financial Assistant with MeTTa Reasoning* leverages Meta-Type-Theoretic Archi
 - **Multi-source Data Integration**: Combines data from various financial APIs for comprehensive insights
 
 ## Technology Stack
-- **Backend**: FastAPI (Python)
-- **AI/ML**: OpenAI API, scikit-learn, sentence-transformers
-- **Data Processing**: Pandas, NumPy
+
+### Backend
+- **Framework**: FastAPI (Python)
+- **Reasoning Engine**: MeTTa (Meta-Type-Theoretic Architecture) for symbolic reasoning
+- **Knowledge Representation**: Neo4j knowledge graph for financial entity relationships
+- **AI/ML**: 
+  - OpenAI API for natural language understanding
+  - RAG (Retrieval Augmented Generation) for context-aware responses
+  - scikit-learn for predictive analytics
+  - sentence-transformers for semantic search
+- **Data Processing**: Pandas, NumPy for financial data manipulation
 - **API Integration**: 
   - CoinMarketCap (cryptocurrency data)
   - Alpha Vantage (stock market data)
@@ -24,9 +32,14 @@ A *Financial Assistant with MeTTa Reasoning* leverages Meta-Type-Theoretic Archi
 - **Documentation**: MkDocs with Material theme
 - **Development Tools**: Black, Flake8, MyPy
 
-## For Testing -
- checkout SETUP.txt to run it
+### Frontend
+- **Web Interface**: React.js with TypeScript
+- **Data Visualization**: D3.js and Chart.js for financial charts
+- **Styling**: Tailwind CSS for responsive design
+- **State Management**: Redux for application state
 
+## Getting Started
+ check out `SETUP.txt`
 ## Environment Configuration
 The application requires several API keys and configuration parameters set in the `.env` file:
 - OpenAI API key for natural language processing
@@ -50,7 +63,5 @@ The application requires several API keys and configuration parameters set in th
 - API rate limits may affect real-time data availability
 - Financial advice is for informational purposes only
 - Historical data may be limited for some financial instruments
-
-
 
 
