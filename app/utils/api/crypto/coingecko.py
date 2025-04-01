@@ -4,13 +4,15 @@ CoinGecko API client for cryptocurrency data
 
 from typing import Dict, Any, Optional, List
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 import requests
 import os
 import asyncio
+import aiohttp
 
 from app.utils.api.base import BaseAPIClient
+from app.utils.api.config import COINGECKO_BASE_URL, RATE_LIMITS
 
 logger = logging.getLogger(__name__)
 
@@ -22,12 +24,17 @@ class CoinGeckoClient(BaseAPIClient):
     
     def __init__(self):
         """Initialize the CoinGecko API client"""
-        base_url = os.getenv("COINGECKO_BASE_URL", "https://api.coingecko.com/api/v3")
         super().__init__(
-            base_url=base_url,
+            base_url=COINGECKO_BASE_URL,
             api_key=None,  # CoinGecko free tier doesn't require an API key
             api_name="coingecko"
         )
+        
+        # Set up rate limiting
+        self.rate_limit = RATE_LIMITS.get("coingecko", 50)  # Default to 50 if not found
+        self.last_api_call = 0
+        self.min_call_interval = 6  # seconds between calls for free tier
+        
         # Common cryptocurrency symbol to CoinGecko ID mapping
         self.symbol_to_id = {
             "BTC": "bitcoin",
@@ -63,7 +70,8 @@ class CoinGeckoClient(BaseAPIClient):
             "HBAR": "hedera-hashgraph",
             "ALCH": "alchemy-pay",
             "DAI": "dai",
-            "OKB": "okb"
+            "OKB": "okb",
+            "WBTC": "wrapped-bitcoin"
         }
         
         # Database of funded crypto/web3 projects and emerging technologies
@@ -91,10 +99,6 @@ class CoinGeckoClient(BaseAPIClient):
                 "description": "Decentralized data exchange protocol to unlock data for AI. Allows data to be shared while preserving privacy and control."
             }
         }
-        
-        # Track API calls to respect rate limits
-        self.last_api_call = 0
-        self.min_call_interval = 6  # seconds between calls for free tier
     
     def _respect_rate_limit(self):
         """Ensure we don't exceed rate limits"""

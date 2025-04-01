@@ -117,7 +117,6 @@ class CryptoAPI:
             "ETHEREUM": "ETH",
             "LITECOIN": "LTC",
             "BITCOIN CASH": "BCH",
-            "BINANCE COIN": "BNB",
             "CARDANO": "ADA",
             "POLKADOT": "DOT",
             "RIPPLE": "XRP",

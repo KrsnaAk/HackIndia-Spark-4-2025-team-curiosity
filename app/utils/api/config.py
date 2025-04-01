@@ -37,7 +37,7 @@ def get_env_var(key: str, default: str = "") -> str:
         logger.error(f"Error getting environment variable {key}: {str(e)}")
         return default
 
-def get_int_env_var(key: str, default: int, min_value: int = 1) -> int:
+def get_int_env_var(key: str, default: int, min_value: int = 0) -> int:
     """
     Get integer environment variable with validation
     
@@ -51,21 +51,15 @@ def get_int_env_var(key: str, default: int, min_value: int = 1) -> int:
     """
     try:
         value = int(get_env_var(key, str(default)))
-        if value < min_value:
-            logger.warning(f"Invalid {key} value {value}, using default of {default}")
-            return default
-        return value
+        return max(value, min_value)
     except ValueError:
         logger.warning(f"Invalid {key} format, using default of {default}")
         return default
 
 # API KEYS
-ALPHA_VANTAGE_API_KEY = get_env_var("ALPHA_VANTAGE_API_KEY", "demo")
+ALPHA_VANTAGE_API_KEY = get_env_var("ALPHA_VANTAGE_API_KEY", "")
 COINMARKETCAP_API_KEY = get_env_var("COINMARKETCAP_API_KEY", "")
-BINANCE_API_KEY = get_env_var("BINANCE_API_KEY", "")
-BINANCE_API_SECRET = get_env_var("BINANCE_API_SECRET", "")
 RBI_API_KEY = get_env_var("RBI_API_KEY", "")
-GEMINI_API_KEY = get_env_var("GEMINI_API_KEY", "")
 
 # API URLs with fallbacks
 ALPHA_VANTAGE_BASE_URL = get_env_var("ALPHA_VANTAGE_BASE_URL", "https://www.alphavantage.co/query")
@@ -73,7 +67,6 @@ YAHOO_FINANCE_BASE_URL = get_env_var("YAHOO_FINANCE_BASE_URL", "https://query1.f
 NSE_INDIA_BASE_URL = get_env_var("NSE_INDIA_BASE_URL", "https://www.nseindia.com/api")
 COINGECKO_BASE_URL = get_env_var("COINGECKO_BASE_URL", "https://api.coingecko.com/api/v3")
 COINMARKETCAP_BASE_URL = get_env_var("COINMARKETCAP_BASE_URL", "https://pro-api.coinmarketcap.com/v1")
-BINANCE_BASE_URL = get_env_var("BINANCE_BASE_URL", "https://api.binance.com/api/v3")
 RBI_BASE_URL = get_env_var("RBI_BASE_URL", "https://api.rbi.org.in/api/v1")
 
 # Cache settings with validation
@@ -103,7 +96,6 @@ DEFAULT_CRYPTO_CURRENCY = get_env_var("DEFAULT_CRYPTO_CURRENCY", "BTC")
 RATE_LIMITS: Dict[str, int] = {
     "coingecko": get_int_env_var("COINGECKO_RATE_LIMIT", 50, min_value=1),
     "alphavantage": get_int_env_var("ALPHA_VANTAGE_RATE_LIMIT", 5, min_value=1),
-    "binance": get_int_env_var("BINANCE_RATE_LIMIT", 1200, min_value=1),
     "coinmarketcap": get_int_env_var("COINMARKETCAP_RATE_LIMIT", 30, min_value=1)
 }
 

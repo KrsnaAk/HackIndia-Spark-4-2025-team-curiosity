@@ -2,36 +2,53 @@
 <html>
 <head>
     <title>AI & SingularityNET - Powered Financial Assistant</title>
-    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .knowledge-graph-container {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="sidebar">
-            <div class="logo">
-                <h1>Financial Chatbot</h1>
+        <header>
+            <h1>Financial Assistant with MeTTa Reasoning</h1>
+            <p>Powered by SingularityNET technology</p>
+        </header>
+        
+        <main>
+            <div class="chat-container">
+                <div id="chat-messages" class="chat-messages"></div>
+                
+                <form id="chat-form" class="chat-form">
+                    <input type="text" id="message-input" placeholder="Ask about stocks, inflation effects, or investment advice..." required>
+                    <button type="submit">Send</button>
+                </form>
             </div>
-            <div class="app-description">
-                <p>Your AI-powered financial assistant. Ask about stocks, crypto, or investment advice.</p>
+            
+            <div class="info-panel">
+                <h2>About MeTTa Reasoning</h2>
+                <p>This financial assistant uses MeTTa (Meta Talk Type) for symbolic reasoning, rather than vector databases. This allows for dynamic inference and logical deduction.</p>
+                
+                <h3>Try asking about:</h3>
+                <ul>
+                    <li>✅ "What happens if inflation increases?"</li>
+                    <li>✅ "What are the effects of high interest rates?"</li>
+                    <li>✅ "How does a recession affect employment?"</li>
+                    <li>✅ "What's the difference between stocks and crypto?"</li>
+                    <li>✅ "What investments are good for a conservative investor?"</li>
+                </ul>
+                
+                <p class="note">MeTTa allows for causal reasoning, so your assistant can explain the relationships between financial concepts!</p>
             </div>
-        </div>
-        <div class="main-content">
-            <div class="chat-window">
-                <div id="chat-container"></div>
-                <div id="typing-indicator" style="display: none;">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
-                <div class="input-area">
-                    <input type="text" id="user-input" placeholder="Ask about stocks, crypto, or financial advice...">
-                    <button id="send-button">Send</button>
-                </div>
-                <div class="actions">
-                    <button id="clear-button">Clear Chat</button>
-                </div>
-            </div>
-        </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 SingularityNET Financial Assistant</p>
+        </footer>
     </div>
+    
     <script src="/static/main.js"></script>
 </body>
 </html> 

@@ -15,6 +15,8 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     """
     Model for chat response
+    
+    Now enhanced with knowledge graph support for MeTTa reasoning
     """
     response: str
     additional_data: Optional[Dict[str, Any]] = None

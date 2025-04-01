@@ -8,7 +8,6 @@ requests==2.31.0
 numpy>=1.24.0
 pandas>=2.0.0
 scikit-learn>=1.0.0
-google-generativeai>=0.3.0
 sentence-transformers>=2.2.2
 rdflib>=6.2.0
 networkx>=2.8.0

@@ -36,7 +36,7 @@ app.add_middleware(
 )
 
 # Mount static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 # Configure templates
 templates = Jinja2Templates(directory="templates")

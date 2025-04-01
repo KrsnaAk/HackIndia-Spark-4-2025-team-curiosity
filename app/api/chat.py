@@ -158,26 +158,30 @@ def is_definition_query(message: str) -> bool:
 
 def extract_crypto_symbol(message: str) -> Optional[str]:
     """Extract cryptocurrency symbol from message"""
-    crypto_symbols = {
-        "bitcoin": "BTC", "btc": "BTC",
-        "ethereum": "ETH", "eth": "ETH",
-        "binance": "BNB", "bnb": "BNB",
-        "cardano": "ADA", "ada": "ADA",
-        "solana": "SOL", "sol": "SOL",
-        "ripple": "XRP", "xrp": "XRP",
-        "polkadot": "DOT", "dot": "DOT",
-        "dogecoin": "DOGE", "doge": "DOGE",
-        "polygon": "MATIC", "matic": "MATIC",
-        "chainlink": "LINK", "link": "LINK",
-        "avalanche": "AVAX", "avax": "AVAX",
-        "uniswap": "UNI", "uni": "UNI",
-        "aave": "AAVE", "aave": "AAVE",
-        "compound": "COMP", "comp": "COMP",
-        "synthetix": "SNX", "snx": "SNX"
+    symbol_mapping = {
+        "bitcoin": "BTC",
+        "ethereum": "ETH",
+        "litecoin": "LTC",
+        "bitcoin cash": "BCH",
+        "cardano": "ADA",
+        "polkadot": "DOT",
+        "ripple": "XRP",
+        "dogecoin": "DOGE",
+        "solana": "SOL",
+        "polygon": "MATIC",
+        "chainlink": "LINK",
+        "avalanche": "AVAX",
+        "uniswap": "UNI",
+        "tether": "USDT",
+        "usd coin": "USDC",
+        "shiba inu": "SHIB",
+        "wrapped bitcoin": "WBTC",
+        "cosmos": "ATOM",
+        "near protocol": "NEAR"
     }
     
     message_lower = message.lower()
-    for word, symbol in crypto_symbols.items():
+    for word, symbol in symbol_mapping.items():
         if word in message_lower or symbol.lower() in message_lower:
             return symbol
     return None
@@ -256,7 +260,7 @@ async def get_crypto_price(symbol: str) -> Optional[Dict[str, Any]]:
         if symbol.upper() in MOCK_CRYPTO_DATA:
             logger.info(f"Using mock data for {symbol}")
             return MOCK_CRYPTO_DATA[symbol.upper()]
-        
+            
         # Fetch from API
         crypto_data = await crypto_api.get_crypto_price(symbol)
         if crypto_data and validate_crypto_data(crypto_data):
@@ -302,6 +306,12 @@ async def chat(request: ChatRequest) -> ChatResponse:
     try:
         chat_service = ChatService()
         response = await chat_service.get_response(request.message)
+        logger.info(f"Chat request: '{request.message}', Response: '{response.response[:50]}...'")
+        
+        # Check if the response includes a knowledge graph
+        if hasattr(response, 'knowledge_graph') and response.knowledge_graph:
+            logger.info(f"Response includes knowledge graph with {len(response.knowledge_graph.get('nodes', []))} nodes")
+        
         return response
     except Exception as e:
         logger.error(f"Error in chat endpoint: {str(e)}")
