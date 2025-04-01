@@ -1,90 +1,127 @@
-SETUP GUIDE FOR CHATBOT-BEST
-=========================
+ChatBot Setup Instructions
+=======================
 
-1. PREREQUISITES
---------------
-- Python 3.9+ installed on your system
-- Visual Studio Code with Python extension installed
-- Git (optional, for version control)
+This guide will help you set up and run the ChatBot in Visual Studio Code.
 
-2. SETUP IN VSCODE
------------------
-- Open VSCode
-- Click on "File" > "Open Folder..." or use Ctrl+K Ctrl+O
-- Navigate to where you want to create your project
-- If you have the project files already:
-  * Select the folder containing the project files
-- If starting from scratch:
-  * Create a new folder named 'ChatBot-BEST'
-  * Open terminal in VSCode (Ctrl+`)
-  * Clone the repository (if using Git):
-    git clone https://github.com/yourusername/ChatBot-BEST.git .
+Prerequisites
+------------
+1. Python 3.8 or higher
+2. Visual Studio Code
+3. Git (for cloning the repository)
+4. Internet connection
 
-3. VIRTUAL ENVIRONMENT SETUP
+Step 1: Environment Setup
+------------------------
+1. Install Visual Studio Code from https://code.visualstudio.com/
+2. Install Python from https://www.python.org/downloads/
+3. Install Git from https://git-scm.com/downloads
+
+Step 2: Clone the Repository
 ---------------------------
-- In VSCode's integrated terminal:
-  * Create a virtual environment:
-    python -m venv venv
-  * Activate the virtual environment:
-    On Windows: .\venv\Scripts\activate
-    On macOS/Linux: source venv/bin/activate
-  * VSCode might ask to select this environment - click "Yes"
+1. Open Terminal/Command Prompt
+2. Navigate to your desired directory
+3. Run the following command:
+   ```
+   git clone https://github.com/yourusername/ChatBot-BEST.git
+   cd ChatBot-BEST
+   ```
 
-4. INSTALL DEPENDENCIES
-----------------------
-- With the virtual environment activated:
-  * Install required packages:
-    pip install -r requirements.txt
-  * If requirements.txt doesn't exist or is incomplete, install:
-    pip install fastapi uvicorn python-dotenv numpy pandas scikit-learn sentence-transformers httpx aiohttp
+Step 3: VSCode Setup
+-------------------
+1. Open VSCode
+2. Install recommended extensions:
+   - Python (Microsoft)
+   - Python Extension Pack
+   - Pylance
+   - Git Lens (optional)
 
-5. RUNNING THE APPLICATION
+Step 4: Python Virtual Environment
+--------------------------------
+1. Open VSCode Terminal (Ctrl+`)
+2. Create a virtual environment:
+   ```
+   python -m venv venv
+   ```
+3. Activate the virtual environment:
+   - Windows:
+     ```
+     .\venv\Scripts\activate
+     ```
+   - macOS/Linux:
+     ```
+     source venv/bin/activate
+     ```
+
+Step 5: Install Dependencies
+---------------------------
+1. Install required packages:
+   ```
+   pip install -r requirements.txt
+   ```
+
+Step 6: Environment Variables
+---------------------------
+1. Create a .env file in the root directory
+2. Add the following variables:
+   ```
+   OPENAI_API_KEY=your_openai_api_key
+   FINNHUB_API_KEY=your_finnhub_api_key
+   FINNHUB_BASE_URL=https://finnhub.io/api/v1
+   ```
+   Replace 'your_openai_api_key' and 'your_finnhub_api_key' with actual API keys
+
+Step 7: Running the Application
+-----------------------------
+1. Ensure you're in the project root directory
+2. Start the server:
+   ```
+   python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   ```
+3. Open your web browser and navigate to:
+   http://localhost:8000
+
+Common Issues and Solutions
 -------------------------
-- Make sure your virtual environment is activated
-- In the VSCode terminal, run:
-  python -m app.main
-- Alternatively, run:
-  python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-- The application will be available at: http://localhost:8000
+1. Port already in use:
+   - Change the port number in the uvicorn command (e.g., --port 8001)
 
-6. DEBUGGING IN VSCODE
---------------------
-- Click on the "Run and Debug" icon in the side panel (Ctrl+Shift+D)
-- Click "create a launch.json file" > "Python" > "FastAPI"
-- In the generated launch.json, ensure it points to your app.main:app
-- Use the green "Play" button to start the application in debug mode
+2. Module not found errors:
+   - Ensure virtual environment is activated
+   - Verify all dependencies are installed: `pip install -r requirements.txt`
 
-7. CODE STRUCTURE
----------------
-- app/
-  * main.py - FastAPI application entry point
-  * api/ - API endpoints
-  * data/ - Data files including vector database
-  * models/ - Data models
-  * services/ - Business logic
-  * static/ - Static assets (CSS, JS)
-  * templates/ - HTML templates
-  * utils/ - Utility functions and classes
+3. API Key errors:
+   - Double-check your .env file contains correct API keys
+   - Ensure .env file is in the root directory
 
-8. TROUBLESHOOTING
------------------
-- If modules can't be found:
-  * Ensure you're using the correct Python interpreter (virtual environment)
-  * Check in VSCode's status bar if "Python" shows your venv
-- If the server won't start:
-  * Ensure no other application is using port 8000
-  * Try changing the port: --port 8001
-- If dependencies fail to install:
-  * Upgrade pip: python -m pip install --upgrade pip
-  * Install individually to identify problematic packages
+4. Permission errors:
+   - Run terminal/command prompt as administrator
+   - Check file permissions in project directory
 
-9. USEFUL VSCODE EXTENSIONS
--------------------------
-- Python (Microsoft) - Python language support
-- Pylance - Python language server
-- Python Indent - Correct indentation
-- autoDocstring - Documentation generation
-- GitLens - Git integration
+Getting API Keys
+--------------
+1. OpenAI API Key:
+   - Visit: https://platform.openai.com/
+   - Sign up/Login
+   - Navigate to API section
+   - Generate new API key
 
-=========================
-End of Setup Guide 
+2. Finnhub API Key:
+   - Visit: https://finnhub.io/
+   - Sign up/Login
+   - Navigate to API section
+   - Get your API key
+
+Additional Resources
+------------------
+- Documentation: /docs
+- API Reference: /api/docs
+- GitHub Repository: https://github.com/yourusername/ChatBot-BEST
+
+Support
+-------
+For additional help or issues:
+1. Check the GitHub issues section
+2. Contact the development team
+3. Refer to the documentation
+
+Note: Keep your API keys secure and never share them publicly. 
