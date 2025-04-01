@@ -5,34 +5,50 @@ CoinMarketCap API client for cryptocurrency data
 from typing import Dict, Any, Optional, List
 import logging
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
 from app.utils.api.base import BaseAPIClient
-from app.utils.api.config import COINMARKETCAP_BASE_URL, COINMARKETCAP_API_KEY
+
+# Load environment variables
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
 class CoinMarketCapClient(BaseAPIClient):
     """Client for CoinMarketCap cryptocurrency APIs"""
     
-    def __init__(self):
+    def __init__(self, api_key: Optional[str] = None):
         """Initialize CoinMarketCap API client"""
+        # Get base URL from environment or use default
+        base_url = os.getenv("COINMARKETCAP_BASE_URL", "https://pro-api.coinmarketcap.com/v1")
+        
+        # Use provided API key or get from environment
+        self.api_key = api_key or os.getenv("COINMARKETCAP_API_KEY", "")
+        
+        if not self.api_key:
+            logger.warning("No CoinMarketCap API key provided. API calls will likely fail.")
+        
         super().__init__(
-            base_url=COINMARKETCAP_BASE_URL,
-            api_key=COINMARKETCAP_API_KEY,
+            base_url=base_url,
+            api_key=self.api_key,
             api_name="coinmarketcap"
         )
     
     def _prepare_headers(self, additional_headers: Optional[Dict[str, str]] = None) -> Dict[str, str]:
         """Prepare headers with CoinMarketCap API key"""
-        headers = super()._prepare_headers(additional_headers)
+        headers = {
+            "Accept": "application/json",
+            "User-Agent": "Finance-Chatbot/1.0"
+        }
+        
         # CoinMarketCap uses X-CMC_PRO_API_KEY header
         if self.api_key:
             headers["X-CMC_PRO_API_KEY"] = self.api_key
-            # Remove the default Authorization headers
-            if "Authorization" in headers:
-                del headers["Authorization"]
-            if "X-API-Key" in headers:
-                del headers["X-API-Key"]
+        
+        if additional_headers:
+            headers.update(additional_headers)
+        
         return headers
     
     def get_crypto_price(self, symbol: str, convert: str = "USD") -> Dict[str, Any]:

@@ -5,20 +5,33 @@ Alpha Vantage API client for stock market data
 from typing import Dict, Any, Optional, List
 import logging
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
 from app.utils.api.base import BaseAPIClient
-from app.utils.api.config import ALPHA_VANTAGE_API_KEY, ALPHA_VANTAGE_BASE_URL
+
+# Load environment variables
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
 class AlphaVantageClient(BaseAPIClient):
     """Client for Alpha Vantage stock market APIs"""
     
-    def __init__(self):
+    def __init__(self, api_key: Optional[str] = None):
         """Initialize Alpha Vantage API client"""
+        # Get base URL from environment or use default
+        base_url = os.getenv("ALPHA_VANTAGE_BASE_URL", "https://www.alphavantage.co/query")
+        
+        # Use provided API key or get from environment
+        self.api_key = api_key or os.getenv("ALPHA_VANTAGE_API_KEY", "")
+        
+        if not self.api_key:
+            logger.warning("No Alpha Vantage API key provided. API calls will likely fail.")
+        
         super().__init__(
-            base_url=ALPHA_VANTAGE_BASE_URL,
-            api_key=ALPHA_VANTAGE_API_KEY,
+            base_url=base_url,
+            api_key=self.api_key,
             api_name="alpha_vantage"
         )
     
@@ -56,7 +69,7 @@ class AlphaVantageClient(BaseAPIClient):
                 "symbol": symbol.upper(),
                 "price": float(quote.get("05. price", 0)),
                 "change": float(quote.get("09. change", 0)),
-                "change_percent": quote.get("10. change percent", "0%").replace("%", ""),
+                "change_percent": float(quote.get("10. change percent", "0%").replace("%", "")),
                 "volume": int(float(quote.get("06. volume", 0))),
                 "previous_close": float(quote.get("08. previous close", 0)),
                 "last_updated": datetime.now().isoformat()
@@ -66,6 +79,28 @@ class AlphaVantageClient(BaseAPIClient):
         
         except Exception as e:
             logger.error(f"Error fetching stock price for {symbol}: {str(e)}")
+            return {
+                "symbol": symbol,
+                "error": "api_error",
+                "message": f"Failed to fetch stock data: {str(e)}"
+            }
+            
+    async def get_stock_price_async(self, symbol: str) -> Dict[str, Any]:
+        """
+        Get current stock price information (async version)
+        
+        Args:
+            symbol: Stock symbol
+            
+        Returns:
+            Dictionary with stock price information
+        """
+        # Use the synchronous method since Alpha Vantage doesn't need async calls
+        # This maintains compatibility with the StockAPI interface
+        try:
+            return self.get_stock_price(symbol)
+        except Exception as e:
+            logger.error(f"Async error fetching stock price for {symbol}: {str(e)}")
             return {
                 "symbol": symbol,
                 "error": "api_error",

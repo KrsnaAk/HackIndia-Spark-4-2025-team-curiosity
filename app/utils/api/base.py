@@ -89,7 +89,7 @@ class BaseAPIClient:
     
     def _process_response(self, response: requests.Response) -> Dict[str, Any]:
         """
-        Process API response and handle errors
+        Process API response with improved error handling
         
         Args:
             response: API response object
@@ -115,6 +115,8 @@ class BaseAPIClient:
                 # Many APIs include error information in the response even with 200 status
                 if 'error' in data or 'errors' in data:
                     error_msg = data.get('error', data.get('errors', 'Unknown API error'))
+                    if isinstance(error_msg, dict):
+                        error_msg = error_msg.get('message', str(error_msg))
                     logger.error(f"API error from {self.api_name}: {error_msg}")
                     raise ValueError(f"API error: {error_msg}")
                     
@@ -152,9 +154,10 @@ class BaseAPIClient:
                data: Optional[Dict[str, Any]] = None,
                headers: Optional[Dict[str, str]] = None,
                use_cache: bool = True,
-               cache_type: str = "memory") -> Any:
+               cache_type: str = "memory",
+               timeout: Optional[float] = None) -> Any:
         """
-        Make an API request with caching and retry logic
+        Make an API request with improved error handling and request management
         
         Args:
             method: HTTP method (GET, POST, etc.)
@@ -164,9 +167,13 @@ class BaseAPIClient:
             headers: Optional additional headers
             use_cache: Whether to use caching
             cache_type: Type of cache to use ('memory' or 'file')
+            timeout: Optional request timeout in seconds
             
         Returns:
             Parsed response data
+            
+        Raises:
+            ValueError: If the request fails or response is invalid
         """
         method = method.upper()
         url = f"{self.base_url}/{endpoint.lstrip('/')}"
@@ -185,6 +192,8 @@ class BaseAPIClient:
         
         # Execute request with retries
         retry_count = 0
+        last_error = None
+        
         while retry_count <= MAX_RETRIES:
             try:
                 # Add delay between requests to avoid rate limiting
@@ -193,46 +202,65 @@ class BaseAPIClient:
                 if elapsed < 1.0:  # Minimum 1 second between requests
                     time.sleep(1.0 - elapsed)
                 
-                # Make request
+                # Make request with timeout
                 response = self.session.request(
                     method=method,
                     url=url,
                     params=params,
-                    json=data if method in ["POST", "PUT", "PATCH"] else None,
+                    json=data if data else None,
                     headers=request_headers,
-                    timeout=DEFAULT_TIMEOUT
+                    timeout=timeout or DEFAULT_TIMEOUT
                 )
                 
+                # Update last request time
                 self.last_request_time = time.time()
                 
                 # Process response
-                result = self._process_response(response)
+                data = self._process_response(response)
                 
-                # Cache successful GET results
+                # Cache successful responses for GET requests
                 if use_cache and method == "GET":
-                    save_to_cache(self.api_name, cache_key, params, result, cache_type)
+                    save_to_cache(self.api_name, cache_key, params, data, cache_type)
                 
-                return result
+                return data
                 
-            except (ConnectionError, Timeout) as e:
-                # Network errors - retry
+            except Timeout:
+                last_error = "Request timed out"
                 retry_count += 1
                 if retry_count <= MAX_RETRIES:
-                    wait_time = 2 ** retry_count  # Exponential backoff
-                    logger.warning(f"Request to {self.api_name} failed with {str(e)}. Retrying in {wait_time}s...")
-                    time.sleep(wait_time)
-                else:
-                    logger.error(f"Request to {self.api_name} failed after {MAX_RETRIES} retries: {str(e)}")
-                    raise ValueError(f"Failed to connect to {self.api_name} API after multiple attempts")
+                    logger.warning(f"Request timeout for {self.api_name}/{endpoint}, retrying...")
+                    time.sleep(2 ** retry_count)  # Exponential backoff
+                    
+            except ConnectionError:
+                last_error = "Connection error"
+                retry_count += 1
+                if retry_count <= MAX_RETRIES:
+                    logger.warning(f"Connection error for {self.api_name}/{endpoint}, retrying...")
+                    time.sleep(2 ** retry_count)  # Exponential backoff
+                    
+            except RequestException as e:
+                last_error = str(e)
+                retry_count += 1
+                if retry_count <= MAX_RETRIES:
+                    logger.warning(f"Request failed for {self.api_name}/{endpoint}, retrying...")
+                    time.sleep(2 ** retry_count)  # Exponential backoff
                     
             except ValueError as e:
-                # API errors - don't retry
+                # Don't retry on value errors (invalid response format)
+                logger.error(f"Invalid response from {self.api_name}/{endpoint}: {str(e)}")
                 raise
                 
             except Exception as e:
-                # Other unexpected errors
-                logger.error(f"Unexpected error in API request to {self.api_name}: {str(e)}")
-                raise ValueError(f"Unexpected error in API request: {str(e)}")
+                # Don't retry on unexpected errors
+                logger.error(f"Unexpected error from {self.api_name}/{endpoint}: {str(e)}")
+                raise
+        
+        # All retries failed
+        error_msg = f"Request failed after {MAX_RETRIES} retries"
+        if last_error:
+            error_msg = f"{error_msg}: {last_error}"
+        logger.error(error_msg)
+        raise ValueError(error_msg)
     
     def get(self, endpoint: str, params: Optional[Dict[str, Any]] = None, **kwargs) -> Any:
         """Convenience method for GET requests"""

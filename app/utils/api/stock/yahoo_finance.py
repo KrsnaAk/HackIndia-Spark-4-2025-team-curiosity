@@ -6,9 +6,14 @@ from typing import Dict, Any, Optional, List
 import logging
 from datetime import datetime, timedelta
 import time
+import os
+from dotenv import load_dotenv
 
 from app.utils.api.base import BaseAPIClient
 from app.utils.api.config import YAHOO_FINANCE_BASE_URL
+
+# Load environment variables
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -17,8 +22,11 @@ class YahooFinanceClient(BaseAPIClient):
     
     def __init__(self):
         """Initialize Yahoo Finance API client"""
+        # Get base URL from environment or use default
+        base_url = os.getenv("YAHOO_FINANCE_BASE_URL", "https://query1.finance.yahoo.com/v8/finance")
+        
         super().__init__(
-            base_url=YAHOO_FINANCE_BASE_URL,
+            base_url=base_url,
             api_key=None,  # Yahoo Finance doesn't require an API key
             api_name="yahoo_finance"
         )
@@ -69,6 +77,27 @@ class YahooFinanceClient(BaseAPIClient):
         
         except Exception as e:
             logger.error(f"Error fetching stock price for {symbol}: {str(e)}")
+            return {
+                "symbol": symbol,
+                "error": "api_error",
+                "message": f"Failed to fetch stock data: {str(e)}"
+            }
+    
+    async def get_stock_price_async(self, symbol: str) -> Dict[str, Any]:
+        """
+        Get current stock price information (async version)
+        
+        Args:
+            symbol: Stock symbol
+            
+        Returns:
+            Dictionary with stock price information
+        """
+        # Yahoo Finance doesn't need async calls, use the synchronous method
+        try:
+            return self.get_stock_price(symbol)
+        except Exception as e:
+            logger.error(f"Async error fetching stock price for {symbol}: {str(e)}")
             return {
                 "symbol": symbol,
                 "error": "api_error",

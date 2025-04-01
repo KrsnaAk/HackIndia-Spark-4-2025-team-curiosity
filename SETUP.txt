@@ -1,91 +1,90 @@
-SETUP GUIDE FOR CHATBOT-C2
+SETUP GUIDE FOR CHATBOT-BEST
 =========================
 
-1. FOLDER SETUP
+1. PREREQUISITES
 --------------
-- Create a new folder named 'ChatBot-C2' (avoid spaces and special characters)
-- Copy all project files into this folder
+- Python 3.9+ installed on your system
+- Visual Studio Code with Python extension installed
+- Git (optional, for version control)
 
-2. PYTHON SETUP
---------------
-- Make sure Python 3.13 is installed on your system
-- Open Command Prompt or PowerShell
-- Navigate to your project folder:
-  cd C:\Users\aka25\OneDrive\Desktop\ChatBot-C2
+2. SETUP IN VSCODE
+-----------------
+- Open VSCode
+- Click on "File" > "Open Folder..." or use Ctrl+K Ctrl+O
+- Navigate to where you want to create your project
+- If you have the project files already:
+  * Select the folder containing the project files
+- If starting from scratch:
+  * Create a new folder named 'ChatBot-BEST'
+  * Open terminal in VSCode (Ctrl+`)
+  * Clone the repository (if using Git):
+    git clone https://github.com/yourusername/ChatBot-BEST.git .
 
 3. VIRTUAL ENVIRONMENT SETUP
 ---------------------------
-- Create a virtual environment:
-  python -m venv venv
-- Activate the virtual environment:
-  .\venv\Scripts\activate
-- You should see (venv) at the start of your prompt
+- In VSCode's integrated terminal:
+  * Create a virtual environment:
+    python -m venv venv
+  * Activate the virtual environment:
+    On Windows: .\venv\Scripts\activate
+    On macOS/Linux: source venv/bin/activate
+  * VSCode might ask to select this environment - click "Yes"
 
 4. INSTALL DEPENDENCIES
 ----------------------
-- Install required packages:
-  pip install -r requirements.txt
-- Install additional required packages:
-  pip install numpy pandas scikit-learn sentence-transformers
+- With the virtual environment activated:
+  * Install required packages:
+    pip install -r requirements.txt
+  * If requirements.txt doesn't exist or is incomplete, install:
+    pip install fastapi uvicorn python-dotenv numpy pandas scikit-learn sentence-transformers httpx aiohttp
 
 5. RUNNING THE APPLICATION
 -------------------------
-- Make sure your virtual environment is activated (you should see (venv))
-- Start the server:
+- Make sure your virtual environment is activated
+- In the VSCode terminal, run:
+  python -m app.main
+- Alternatively, run:
   python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 - The application will be available at: http://localhost:8000
 
-6. STOPPING THE APPLICATION
---------------------------
-- Press Ctrl + C in the terminal to stop the server
-- If Ctrl + C doesn't work, use:
-  taskkill /F /IM python.exe
+6. DEBUGGING IN VSCODE
+--------------------
+- Click on the "Run and Debug" icon in the side panel (Ctrl+Shift+D)
+- Click "create a launch.json file" > "Python" > "FastAPI"
+- In the generated launch.json, ensure it points to your app.main:app
+- Use the green "Play" button to start the application in debug mode
 
-7. TROUBLESHOOTING
+7. CODE STRUCTURE
+---------------
+- app/
+  * main.py - FastAPI application entry point
+  * api/ - API endpoints
+  * data/ - Data files including vector database
+  * models/ - Data models
+  * services/ - Business logic
+  * static/ - Static assets (CSS, JS)
+  * templates/ - HTML templates
+  * utils/ - Utility functions and classes
+
+8. TROUBLESHOOTING
 -----------------
-If you encounter any issues:
-- Make sure you're in the correct directory
-- Verify that the virtual environment is activated
-- Check that all dependencies are installed
-- Ensure no other application is using port 8000
+- If modules can't be found:
+  * Ensure you're using the correct Python interpreter (virtual environment)
+  * Check in VSCode's status bar if "Python" shows your venv
+- If the server won't start:
+  * Ensure no other application is using port 8000
+  * Try changing the port: --port 8001
+- If dependencies fail to install:
+  * Upgrade pip: python -m pip install --upgrade pip
+  * Install individually to identify problematic packages
 
-8. GITHUB SETUP (Optional)
+9. USEFUL VSCODE EXTENSIONS
 -------------------------
-To push to GitHub:
-1. Initialize git repository:
-   git init
-
-2. Create .gitignore:
-   echo "venv/
-   __pycache__/
-   *.pyc
-   .env
-   .DS_Store
-   .idea/
-   .vscode/" > .gitignore
-
-3. Add and commit files:
-   git add .
-   git commit -m "Initial commit"
-
-4. Create new repository on GitHub:
-   - Go to github.com
-   - Click "+" -> "New repository"
-   - Name it "ChatBot-C2"
-   - Don't initialize with README
-
-5. Connect and push:
-   git remote add origin https://github.com/YOUR_USERNAME/ChatBot-C2.git
-   git push -u origin main
-
-Note: Replace 'YOUR_USERNAME' with your actual GitHub username
-
-For first-time GitHub users:
-1. Configure git:
-   git config --global user.name "Your Name"
-   git config --global user.email "your.email@example.com"
-
-2. Set up authentication (Personal Access Token or SSH key)
+- Python (Microsoft) - Python language support
+- Pylance - Python language server
+- Python Indent - Correct indentation
+- autoDocstring - Documentation generation
+- GitLens - Git integration
 
 =========================
 End of Setup Guide 

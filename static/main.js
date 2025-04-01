@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let messages = [];
     let currentFilters = {};
     
-    // Initialize with empty message
+    // Initialize with welcome message
     appendMessage('bot', 'Hello! I am your finance assistant. How can I help you today?');
     
     // Load categories and display as filters
@@ -53,87 +53,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
         
-        // Add avatar icon
-        const avatarSpan = document.createElement('span');
-        avatarSpan.className = 'avatar';
-        avatarSpan.textContent = sender === 'user' ? '👤' : '🤖';
-        messageDiv.appendChild(avatarSpan);
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.textContent = sender === 'bot' ? '🤖' : '👤';
         
-        // Add message content in a container
-        const contentDiv = document.createElement('div');
-        contentDiv.className = 'message-content';
+        const content = document.createElement('div');
+        content.className = 'message-content';
+        content.innerHTML = formatMessage(text);
         
-        // Format the message with markdown
-        const formattedText = formatMessage(text);
-        contentDiv.innerHTML = formattedText;
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(content);
         
-        // Add any additional data visualization if provided
-        if (data) {
-            const dataVisual = createDataVisualization(data);
-            if (dataVisual) {
-                contentDiv.appendChild(dataVisual);
-            }
+        // Only display data visualization if there's relevant data to show
+        if (data && Object.keys(data).length > 0 && data.price) {
+            const dataDiv = document.createElement('div');
+            dataDiv.className = 'data-visualization';
+            dataDiv.innerHTML = createDataVisualization(data);
+            messageDiv.appendChild(dataDiv);
         }
         
-        messageDiv.appendChild(contentDiv);
         chatContainer.appendChild(messageDiv);
-        
-        // Scroll to bottom
         chatContainer.scrollTop = chatContainer.scrollHeight;
+        
+        // Hide typing indicator
+        typingIndicator.style.display = 'none';
     }
     
     function formatMessage(text) {
-        // Basic markdown-like formatting
-        let formatted = text
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-            .replace(/`([^`]+)`/g, '<code>$1</code>')
-            .replace(/\n/g, '<br>');
-        
-        // Detect and format URLs
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        formatted = formatted.replace(urlRegex, url => {
-            return `<a href="${url}" target="_blank">${url}</a>`;
-        });
-        
-        return formatted;
-    }
-    
-    function createDataVisualization(data) {
-        // Create visualizations based on data type
-        // This is a placeholder for more complex visualizations
-        if (!data) return null;
-        
-        const container = document.createElement('div');
-        container.className = 'data-visualization';
-        
-        // Example: Show key-value pairs for object data
-        if (typeof data === 'object' && !Array.isArray(data)) {
-            const table = document.createElement('table');
-            table.className = 'data-table';
-            
-            for (const [key, value] of Object.entries(data)) {
-                const row = document.createElement('tr');
-                
-                const keyCell = document.createElement('td');
-                keyCell.className = 'key-cell';
-                keyCell.textContent = key;
-                
-                const valueCell = document.createElement('td');
-                valueCell.className = 'value-cell';
-                valueCell.textContent = JSON.stringify(value);
-                
-                row.appendChild(keyCell);
-                row.appendChild(valueCell);
-                table.appendChild(row);
-            }
-            
-            container.appendChild(table);
-            return container;
-        }
-        
-        return null;
+        // Convert newlines to <br> tags
+        return text.replace(/\n/g, '<br>');
     }
     
     async function sendMessageToAPI(text, filters = {}) {
@@ -145,42 +93,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({
                     message: text,
-                    filters: filters,
-                    history: messages.map(m => ({
-                        role: m.sender === 'user' ? 'user' : 'assistant',
-                        content: m.text
-                    }))
+                    session_id: 'default'
                 }),
             });
             
             if (!response.ok) {
-                throw new Error('API request failed');
+                throw new Error(`API request failed with status ${response.status}`);
             }
             
             const data = await response.json();
             
-            // Hide typing indicator
-            typingIndicator.style.display = 'none';
+            appendMessage('bot', data.response, data.additional_data);
             
-            // Display bot response
-            appendMessage('bot', data.response, data.data);
-            
-            // Update any knowledge graph elements if included
+            // Update knowledge graph if available
             if (data.knowledge_graph) {
                 updateKnowledgeGraphDisplay(data.knowledge_graph);
             }
-            
         } catch (error) {
             console.error('Error:', error);
-            typingIndicator.style.display = 'none';
-            appendMessage('bot', 'Sorry, I encountered an error while processing your request.');
+            appendMessage('bot', 'Sorry, I encountered an error. Please try again.');
         }
     }
     
     function updateKnowledgeGraphDisplay(graphData) {
-        // Placeholder for knowledge graph visualization
+        // Implementation for knowledge graph visualization
         console.log('Knowledge graph data:', graphData);
-        // In a real implementation, this would update a visual graph
     }
     
     async function loadCategories() {
@@ -276,4 +213,59 @@ function getFinancialCategories() {
             console.error('Error fetching categories:', error);
             return { categories: [] };
         });
+}
+
+function createDataVisualization(data) {
+    if (!data) return '';
+    
+    // Financial data visualization for stocks and crypto
+    if (data.price || data.symbol) {
+        let html = '<div class="financial-data">';
+        
+        // Price section
+        html += `<div class="price-section">
+            <span class="current-price">$${parseFloat(data.price).toFixed(2)}</span>
+            <span class="change-percent ${parseFloat(data.change_percent) >= 0 ? 'positive' : 'negative'}">
+                ${parseFloat(data.change_percent) >= 0 ? '▲' : '▼'} ${Math.abs(parseFloat(data.change_percent)).toFixed(2)}%
+            </span>
+        </div>`;
+        
+        // Details section
+        html += '<div class="details-section">';
+        
+        if (data.volume) {
+            html += `<div class="data-row"><span class="label">Volume</span><span class="value">${Number(data.volume).toLocaleString()}</span></div>`;
+        }
+        
+        if (data.high_24h) {
+            html += `<div class="data-row"><span class="label">24h High</span><span class="value">$${parseFloat(data.high_24h).toFixed(2)}</span></div>`;
+        }
+        
+        if (data.low_24h) {
+            html += `<div class="data-row"><span class="label">24h Low</span><span class="value">$${parseFloat(data.low_24h).toFixed(2)}</span></div>`;
+        }
+        
+        if (data.market_cap) {
+            html += `<div class="data-row"><span class="label">Market Cap</span><span class="value">$${Number(data.market_cap).toLocaleString()}</span></div>`;
+        }
+        
+        html += '</div>';
+        html += '</div>';
+        return html;
+    }
+    
+    // Generic data table for other data types
+    let html = '<table class="data-table">';
+    for (const [key, value] of Object.entries(data)) {
+        if (key !== 'type' && typeof value !== 'object') {
+            html += `
+                <tr>
+                    <td class="key-cell">${key}</td>
+                    <td class="value-cell">${value}</td>
+                </tr>
+            `;
+        }
+    }
+    html += '</table>';
+    return html;
 } 

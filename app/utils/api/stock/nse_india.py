@@ -5,9 +5,14 @@ NSE India API client for Indian stock market data
 from typing import Dict, Any, Optional, List
 import logging
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
 from app.utils.api.base import BaseAPIClient
 from app.utils.api.config import NSE_INDIA_BASE_URL
+
+# Load environment variables
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -16,8 +21,11 @@ class NSEIndiaClient(BaseAPIClient):
     
     def __init__(self):
         """Initialize NSE India API client"""
+        # Get base URL from environment or use default
+        base_url = os.getenv("NSE_INDIA_BASE_URL", "https://www.nseindia.com/api")
+        
         super().__init__(
-            base_url=NSE_INDIA_BASE_URL,
+            base_url=base_url,
             api_key=None,  # NSE India doesn't require an API key
             api_name="nse_india"
         )
@@ -89,6 +97,46 @@ class NSEIndiaClient(BaseAPIClient):
                 "error": "api_error",
                 "message": f"Failed to fetch stock data: {str(e)}"
             }
+            
+    async def get_stock_price_async(self, symbol: str) -> Dict[str, Any]:
+        """
+        Get current stock price information for NSE-listed stocks (async version)
+        
+        Args:
+            symbol: Stock symbol
+            
+        Returns:
+            Dictionary with stock price information
+        """
+        # NSE India doesn't need async calls, use the synchronous method
+        try:
+            return self.get_stock_price(symbol)
+        except Exception as e:
+            logger.error(f"Async error fetching stock price for {symbol}: {str(e)}")
+            return {
+                "symbol": symbol,
+                "error": "api_error",
+                "message": f"Failed to fetch stock data: {str(e)}"
+            }
+    
+    async def search_symbol(self, query: str) -> Optional[str]:
+        """
+        Search for a stock symbol
+        
+        Args:
+            query: Search query (company name or symbol)
+            
+        Returns:
+            Best matching symbol or None if not found
+        """
+        try:
+            results = self.search_stocks(query)
+            if results and len(results) > 0:
+                return results[0]["symbol"]
+            return None
+        except Exception as e:
+            logger.error(f"Error searching symbol on NSE: {str(e)}")
+            return None
     
     def get_market_status(self) -> Dict[str, Any]:
         """

@@ -1,212 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finance FAQ Chatbot | Knowledge Graph-Powered AI Assistant</title>
+    <title>AI & SingularityNET - Powered Financial Assistant</title>
     <link rel="stylesheet" href="/static/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <meta name="description" content="A domain-specific finance chatbot leveraging a knowledge graph for accurate, contextual financial information.">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .hero {
-            background: linear-gradient(135deg, #0a2647 0%, #205295 100%);
-            color: white;
-            padding: 4rem 2rem;
-            border-radius: 12px;
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-            opacity: 0.9;
-        }
-        
-        .cta-button {
-            background-color: white;
-            color: #0a2647;
-            padding: 0.9rem 2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            text-decoration: none;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: inline-block;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-        
-        .feature-card {
-            background-color: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        
-        .feature-card h3 {
-            color: #0a2647;
-            margin-top: 0;
-            font-size: 1.4rem;
-        }
-        
-        .feature-card p {
-            color: #64748b;
-            line-height: 1.6;
-        }
-        
-        .feature-icon {
-            background-color: #e9f2ff;
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .icon {
-            width: 30px;
-            height: 30px;
-            fill: #0a2647;
-        }
-        
-        .demo-section {
-            background-color: white;
-            border-radius: 12px;
-            padding: 3rem;
-            margin-bottom: 4rem;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        
-        .demo-section h2 {
-            color: #0a2647;
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-        }
-        
-        .demo-image {
-            max-width: 80%;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            margin: 0 auto 2rem;
-        }
-        
-        .sample-questions {
-            background-color: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 4rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        
-        .sample-questions h2 {
-            color: #0a2647;
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-        }
-        
-        .question-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1rem;
-        }
-        
-        .question-card {
-            background-color: #f5f7fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.2s ease;
-        }
-        
-        .question-card:hover {
-            background-color: #e9f2ff;
-            transform: translateY(-2px);
-        }
-        
-        .question-card h4 {
-            color: #0a2647;
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-        }
-        
-        .question-card p {
-            color: #64748b;
-            margin: 0;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="sidebar">
             <div class="logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                </svg>
-                <span>Finance Assistant</span>
+                <h1>Financial Chatbot</h1>
             </div>
-            <p class="app-description">Your AI guide to financial knowledge</p>
-            
-            <div id="category-filters">
-                <h3>Filter by Category</h3>
-                <!-- Category filters will be loaded here dynamically -->
+            <div class="app-description">
+                <p>Your AI-powered financial assistant. Ask about stocks, crypto, or investment advice.</p>
             </div>
         </div>
-        
         <div class="main-content">
-            <header>
-                <div>
-                    <h1 class="app-name">Financial Knowledge Assistant</h1>
-                    <p class="app-description">Ask anything about finance, investments, banking and more</p>
+            <div class="chat-window">
+                <div id="chat-container"></div>
+                <div id="typing-indicator" style="display: none;">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+                <div class="input-area">
+                    <input type="text" id="user-input" placeholder="Ask about stocks, crypto, or financial advice...">
+                    <button id="send-button">Send</button>
                 </div>
                 <div class="actions">
                     <button id="clear-button">Clear Chat</button>
                 </div>
-            </header>
-            
-            <div class="chat-window">
-                <div id="chat-container">
-                    <!-- Messages will be appended here -->
-                </div>
-                
-                <div id="typing-indicator">
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                </div>
-                
-                <div class="input-area">
-                    <textarea id="user-input" placeholder="Ask a question about finance..."></textarea>
-                    <button id="send-button">Send</button>
-                </div>
             </div>
         </div>
     </div>
-
     <script src="/static/main.js"></script>
 </body>
 </html> 
