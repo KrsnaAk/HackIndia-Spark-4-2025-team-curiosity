@@ -37,7 +37,7 @@ A *Financial Assistant with MeTTa Reasoning* leverages Meta-Type-Theoretic Archi
 - **State Management**: Redux for application state
 
 ## Getting Started
- check out `SETUP.txt`
+ check out `SETUP.txt`  to run it
 ## Environment Configuration
 The application requires several API keys and configuration parameters set in the `.env` file:
 - OpenAI API key for natural language processing
