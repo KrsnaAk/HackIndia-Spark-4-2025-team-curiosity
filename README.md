@@ -29,8 +29,6 @@ A *Financial Assistant with MeTTa Reasoning* leverages Meta-Type-Theoretic Archi
   - StockGeist (market sentiment)
 - **Caching**: Custom caching system with configurable TTL
 - **Testing**: Pytest, pytest-asyncio, pytest-cov
-- **Documentation**: MkDocs with Material theme
-- **Development Tools**: Black, Flake8, MyPy
 
 ### Frontend
 - **Web Interface**: React.js with TypeScript
