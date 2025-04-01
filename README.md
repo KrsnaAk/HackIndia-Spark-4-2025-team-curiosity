@@ -3,6 +3,7 @@
 A *Financial Assistant with MeTTa Reasoning* leverages Meta-Type-Theoretic Architecture (MeTTa) to process financial data, analyze trends, and provide intelligent investment recommendations. By utilizing symbolic reasoning and pattern recognition, it enhances decision-making in portfolio management, risk assessment, and personalized financial planning.
 
 ## Features
+- **Real-time Price**: Access real time price of stocks, cryptocurrencies.
 - **Real-time Financial Data**: Access up-to-date information on stocks, cryptocurrencies, and market indices
 - **Intelligent Query Processing**: Natural language understanding for complex financial questions
 - **Personalized Investment Insights**: Tailored recommendations based on user preferences
